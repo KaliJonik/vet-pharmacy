@@ -19,7 +19,9 @@ export default defineNuxtConfig({
     },
   },
   devtools: { enabled: true },
+
   modules: [,
+
     'nuxt-swiper',
     'vue3-carousel-nuxt',
     '@nuxtjs/i18n',

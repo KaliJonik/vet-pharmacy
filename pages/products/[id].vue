@@ -4,7 +4,6 @@
       <div class="food-menu" v-for="{ id, content, price, old_price, sale, photos } in store.one_products" :key="id">
         <div class="card">
           <div class="card-item-left">
-
             <section class="slider">
               <div class="slider__flex">
                 <div class="slider__col">
@@ -22,7 +21,7 @@
 
                         <swiper-slide v-for="ph in photos" :key="ph">
                           <div class="slider__image">
-                            <img :src="ph.image" alt="" />
+                            <img  :src="ph.image" alt="" />
                           </div>
                         </swiper-slide>
                       </swiper>
@@ -66,49 +65,41 @@
 
             <v-card-item class="mt-9">
 
-              <v-card-text class="text-start font-weight-bold text-h5 my-0  py-0 mb-2">
+              <v-card-text class="text-start my-0  py-0 mb-2">
+                <h2 class="text-h4">
+                  {{ content[$i18n.locale].title }}
+                </h2>
+                <h3 class="my-3 my-font">
+                  Производитель: {{ content[$i18n.locale].manufacturer_title }}
+                </h3>
+                <h2 class="py-0 my-0 my-font">
+                  Цена: от {{ price }} {{ $t('price') }}
+                  <s v-if="sale === true" class="text-caption ml-2 text-red"> {{ old_price }} {{ $t('price') }}</s>
+                </h2>
 
-                {{ content[$i18n.locale].title }}
+
               </v-card-text>
 
-              <v-card-text class="font-weight-light text-start py-0">
-                <p class="my-0 font-weight-bold">
-                  Производитель:
-                </p>
-                <div class="mb-2">
-                  {{ content[$i18n.locale].manufacturer_title }}
-                </div>
-                <p class="my-0 font-weight-bold">
-                  Характеристика:
-                </p>
-                <div>
-                  {{ content[$i18n.locale].characteristic }}
-                </div>
-              </v-card-text>
 
               <v-card-text class="text-start text-h6 mb-0">
-
-                <p class="py-0 my-0">
-                  Цена: от {{ price }} сум
-                  <s v-if="sale === true" class="text-caption ml-2 text-red"> {{ old_price }} сум</s>
-                </p>
-
 
                 <v-row class="display-flex align-center mb-0 my-0">
                   <v-col cols="auto" class="px-2 mx-1">
                     Объем:
-                    <v-btn @click="decrement" color="#0F9D58" class="v-btn--dense"
+                    <v-btn @click="store.DecrementQuantity(id)" color="#0F9D58" class="v-btn--dense"
                       style="min-width: 10px; height: 24px; font-size: 12px;">
                       -
                     </v-btn>
                   </v-col>
-                  <v-col cols="auto" class="px-0" style="padding: 0;">
-                    <v-text-field v-model="quantity" :rules="[numberRule]" :label="content[$i18n.locale].unit"
-                      variant="underlined" style="width: 50px; font-size: 12px;"></v-text-field>
+                  <v-col v-for="(product, index) in store.one_products" :key="index" cols="auto" class="px-0"
+                    style="padding: 0;">
+                    <v-text-field v-model="product.quantity" :rules="[numberRule]"
+                      :label="product.content[$i18n.locale].unit" variant="underlined"
+                      style="width: 90px; font-size: 12px;"></v-text-field>
                   </v-col>
                   <v-col cols="auto" class="px-1">
-                    <v-btn @click="increment" color="#0F9D58" class="v-btn--dense"
-                      style="min-width: 10px; height: 24px; font-size: 12px;">
+                    <v-btn @click="store.incrementQuantity(id)" color="#0F9D58" class="v-btn--dense"
+                      style="min-width: 20px; height: 24px; font-size: 12px;">
                       +
                     </v-btn>
                   </v-col>
@@ -116,17 +107,18 @@
                 <v-row class="display-flex align-center my-0 py-0 mb-0 pb-0">
                   <v-col cols="auto" class="px-2 mx-1">
                     Сумма:
-                    <v-btn @click="decrementCost" color="#0F9D58" class="v-btn--dense"
+                    <v-btn @click="store.decrementCost(id)" color="#0F9D58" class="v-btn--dense"
                       style="min-width: 10px; height: 24px; font-size: 12px;">
                       -
                     </v-btn>
                   </v-col>
-                  <v-col cols="auto" class="px-0" style="padding: 0;">
-                    <v-text-field v-model="cost" :rules="[numberRule]" label="сум" variant="underlined"
+                  <v-col v-for="(product, index) in store.one_products" :key="index" cols="auto" class="px-0"
+                    style="padding: 0;">
+                    <v-text-field v-model="product.cost" :rules="[numberRule]" label="сум" variant="underlined"
                       style="width: 90px; font-size: 12px;"></v-text-field>
                   </v-col>
                   <v-col cols="auto" class="px-1">
-                    <v-btn @click="inctementCost" color="#0F9D58" class="v-btn--dense"
+                    <v-btn @click="store.incrementCost(id)" color="#0F9D58" class="v-btn--dense"
                       style="min-width: 10px; height: 24px; font-size: 12px;">
                       +
                     </v-btn>
@@ -145,14 +137,31 @@
         </div>
 
         <ClientOnly>
-          <div>
-            <div :class="{ 'clip': !isExpanded }" @click="toggleExpansion" ref="descriptionContainer">
-              {{ content[$i18n.locale].description }}
-            </div>
-            <button @click="toggleExpansion" id="show-more-button" v-if="!isExpanded">
-              Показать полностью
-            </button>
+
+          <v-tabs v-model="tab" bg-color="#0F9D58" align-tabs="center" style="border-radius: 10px;">
+            <v-tab value="one">Описание</v-tab>
+            <v-tab value="two">Характеристика</v-tab>
+          </v-tabs>
+          <div class="centred-container">
+            <v-card-text>
+              <v-window v-model="tab">
+                <v-window-item value="one">
+                  <div class="text-start" ref="descriptionContainer">
+                    {{ content[$i18n.locale].description }}
+                  </div>
+                </v-window-item>
+
+                <v-window-item value="two">
+                  <div class="text-start">
+                    {{ content[$i18n.locale].characteristic }}
+                  </div>
+                </v-window-item>
+
+              </v-window>
+
+            </v-card-text>
           </div>
+
         </ClientOnly>
 
       </div>
@@ -166,44 +175,28 @@ import { ref } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
 import { productStore } from '@/stores/product';
-import { addToCart } from '@/composables/AddtoCard';
 
-
+const store = productStore();
+const tab = ref(null);
 const thumbsSwiper = ref(null);
+
+
 
 const setThumbsSwiper = (swiper) => {
   thumbsSwiper.value = swiper;
 };
 
-const store = productStore();
-
+const addToCart = (productId) => {
+  const store = productStore();
+  const alreadyInCart = store.cards.some((item) => item.id === productId);
+  if (!alreadyInCart) {
+    const selectedProduct = store.one_products.find((item) => item.id === productId);
+    if (selectedProduct) {
+      store.addCards(selectedProduct);
+    }
+  }
+};
 await store.FetchOneProduct();
-const quantity = ref(0);
-
-const cost = ref(0);
-
-const decrement = () => {
-  if (quantity.value > 0) {
-    quantity.value--;
-  }
-};
-
-const decrementCost = () => {
-  if (cost.value > 0) {
-    cost.value -= 1000;
-  }
-}
-const inctementCost = () => {
-  const currentValue = parseInt(cost.value);
-  if (!isNaN(currentValue)) {
-    cost.value = currentValue + 1000;
-  } else {
-    cost.value = 1000;
-  }
-}
-const increment = () => {
-  quantity.value++;
-};
 
 
 const numberRule = val => {
@@ -211,20 +204,18 @@ const numberRule = val => {
   return true
 }
 
-const isExpanded = ref(false);
-
-const toggleExpansion = () => {
-  isExpanded.value = !isExpanded.value;
-};
-
 </script>
 
 
 <style scoped>
-.clip {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.centred-container {
+  width: 70%;
+  margin: 0 auto;
+}
+
+.my-font {
+  font-weight: 500;
+  color: black !important;
 }
 
 .swiper {
@@ -257,18 +248,21 @@ const toggleExpansion = () => {
   width: 150px;
   margin-right: -32px;
 
+
 }
 
 .slider__thumbs {
   height: calc(400px - 96px);
+  border-radius: 10%;
+
 
 }
 
 .mySwiper2 {
   border-radius: 10%;
-  box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px,
-    rgba(0, 0, 0, 0.1) 0px 16px 56px,
-    rgba(17, 17, 26, 0.1) 0px 24px 80px;
+  background: #e0e0e0;
+  box-shadow: 5px 5px 11px #8f8f8f,
+    -5px -5px 11px #ffffff;
 }
 
 .slider__thumbs .slider__image {
@@ -311,6 +305,9 @@ const toggleExpansion = () => {
   height: 100%;
   border-radius: 10%;
   overflow: hidden;
+  background: #e0e0e0;
+  box-shadow: 5px 5px 11px #8f8f8f,
+    -5px -5px 11px #ffffff;
 
 }
 
@@ -373,12 +370,6 @@ const toggleExpansion = () => {
   border-bottom: 0;
 
 }
-
-/* .card-item-left:hover {
-  box-shadow: rgba(14, 37, 15, 0.12) 0px 2px 4px 0px,
-    rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
-  transition: 3s;
-} */
 
 .card-item-right {
   flex: 1;
@@ -468,5 +459,4 @@ const toggleExpansion = () => {
   .v-card-item {
     margin-bottom: 20px;
   }
-}
-</style>
+}</style>

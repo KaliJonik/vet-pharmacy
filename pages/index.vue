@@ -13,7 +13,7 @@
               <div class="active">
                 <div class="review-content">
                   <p>{{ content[$i18n.locale].description }}</p>
-                  <div class="review-img bg-img" :style="{ 'background-image': 'url(' + image + ')' }"></div>
+                  <img class="review-img bg-img" :src="image" style="object-fit: cover;"/>
                 </div>
                 <div class="review-info">
                   <h3>{{ content[$i18n.locale].title }}</h3>
@@ -32,7 +32,6 @@
      </Carousel>
   </div>
 </section>
-
 </template>
 
 
@@ -44,7 +43,7 @@ import { ref } from 'vue';
 import { Carousel, Slide } from 'vue3-carousel';
 
 
-const { data:manufacture } = await useAsyncData('manufacture', ()=> $fetch('/manufacturer/'), { lazy:true,
+const { data:manufacture } = await useAsyncData('manufacture', ()=> $fetch('/manufacturer/'), {
   transform:(manufacture)=>{
     return manufacture.map((doc)=>({
       id:doc.id,
