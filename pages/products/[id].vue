@@ -165,7 +165,7 @@ const store = productStore();
 const tab = ref(null);
 const thumbsSwiper = ref(null);
 const addSpacesToNumber = (number)=> {
-    return String(number).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    return String(number).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     }
 const CostInput = (product) => {
   product.cost = product.price * product.quantity;

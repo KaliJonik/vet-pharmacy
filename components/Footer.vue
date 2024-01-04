@@ -22,8 +22,8 @@
                         </div>
                        
                        <div class="d-flex flex-column">
-                        <span> {{ phone_number1 }}</span>
-                       <span>{{ phone_number2 }}</span>
+                        <span>  <span> <a :href="'tel:' + phone_number1">{{ phone_number1 }}</a></span></span>
+                       <span> <span> <a :href="'tel:' + phone_number2">{{ phone_number2 }}</a></span></span>
                        </div>
                       
                     </div>

@@ -653,6 +653,10 @@ section {
 
         width: 50%;
     }
+    .font-home{
+        color: black!important;
+        font-size: 18px!important;
+    }
 
     .img-holder {
         position: absolute;

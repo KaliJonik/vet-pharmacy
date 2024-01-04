@@ -291,6 +291,7 @@ export const productStore = defineStore('products', {
             distribute: manufacture.own.map((doc) => ({
                 id: doc.id,
                 image: doc.image,
+                url:doc.url,
                 content: {
                   ru: { title: doc.title_ru, description: doc.country_ru },
                   uz: { title: doc.title_uz, description: doc.country_uz }
@@ -299,6 +300,7 @@ export const productStore = defineStore('products', {
             own: manufacture.distribute.map((doc) => ({
                 id: doc.id,
                 image: doc.image,
+                url:doc.url,
                 content: {
                   ru: { title: doc.title_ru, description: doc.country_ru },
                   uz: { title: doc.title_uz, description: doc.country_uz }
@@ -307,10 +309,12 @@ export const productStore = defineStore('products', {
           };
     
           return transformedData;
+          
         }
       
       });
       this.manufact = manufacture.value;
+      console.log(this.manufact)
     },
     async getAbout(){
       const {data:About} = await useAsyncData(()=>$fetch('/settings/'), {

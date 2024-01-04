@@ -237,7 +237,7 @@
                                                                         <div class="text-center">
 
                                                                             <v-btn type="submit" color="#0F9D58"
-                                                                                class="mb-4 button-menu " min-width="300px">
+                                                                                class="mb-4 button-menu " min-width="200">
                                                                                 {{ $t('reg') }}
                                                                             </v-btn>
 
@@ -260,7 +260,7 @@
                                                                     <v-form v-model="valid" @submit.prevent="Reset_Password"
                                                                         ref="form" lazy-validation>
 
-                                                                        <v-text-field v-model="user.phonenumber"
+                                                                        <v-text-field v-model="reset.phone_number"
                                                                             prepend-inner-icon="mdi-phone" density="compact"
                                                                             :placeholder="$t('phone')" variant="outlined"
                                                                             :rules="[rules.phoneRequired, rules.phonenumber]"
@@ -416,9 +416,8 @@ const scrollToTop = () => {
 
 const rules = {
     phonenumber: (value) => {
-        const pattern = /^\+?\d{12}$/;
-        return pattern.test(value) || "Пример +998993332211";
-    },
+    const pattern = /^(\+\d{9}|\d{9}|\+\d{12}|\d{12})$/;
+    return pattern.test(value) || "Пример: +998974083121 или 974083121"},
     phoneRequired: (value) => !!value || "You must enter your phone",
     passwordRequired: (value) => !!value || "Your password is required",
     min: (v) => v.length >= 6 || "Минимум 6 символов",

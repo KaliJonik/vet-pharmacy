@@ -4,7 +4,7 @@
     "products": "Mahsulotlar",
     "delivery":"Yetkazish",
     "manufacture": "Ishlab chiqaruvchilar",
-    "welcome": "Bizning veterinariya dorixonasiga xush kelibsiz, bu erda uy hayvoningizga g'amxo'rlik qilish bizning ustuvor vazifamizdir. Biz sizning uy hayvonlaringiz salomatligi va farovonligi uchun g'amxo'rlik qilish uchun yuqori sifatli mahsulotlarning keng assortimentini taklif etamiz. Bizning assortimentimiz dori-darmonlar, vitaminlar, oziq-ovqat, gigiena vositalari va boshqalarni o'z ichiga oladi.",
+    "welcome": "SAMVETSERVIS -veterinariya dorixonasiga xush kelibsiz. Bizning Tovuqchilik markazimiz sizning parrandalaringiz va boshqa uy hayvonlaringiz salomatligi va farovonligi uchun yuqori sifatli mahsulotlarning keng assortimentini taklif etamiz.",
     "price":"so'm",
     "order":"Hoziroq buyurtma berish",
     "about_items": "Bu erda uy hayvoningizga g'amxo'rlik boshlanadi. Bizning vazifamiz sizning chorva molingizni sog'lom va baxtli bo'lishi uchun zarur bo'lgan hamma narsa bilan ta'minlashdir. Biz chorva molingiz uchun ijobiy muhit yaratib, sifatli mahsulot va xizmatlarni taklif qilishdan faxrlanamiz.",
@@ -46,5 +46,11 @@
     "addres":"Manzil",
     "email_phone":"email yoki telefon",
     "theme":"Mavzu",
-    "text":"Matn"
+    "text":"Matn",
+    "not_found": "Sahifa topilmadi",
+    "PROCESSING": "BAJARILMOQDA",
+    "AGREED":"TASDIQLANGAN",
+    "DENIED": "RAD ETILGAN",
+    "SUCCESS": "TUGALANGAN"
+
 }

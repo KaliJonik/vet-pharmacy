@@ -65,7 +65,7 @@ const token = useAuthToken();
     }
 
 const addSpacesToNumber = (number) => {
-    return String(number).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    return String(number).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 }
 const truncateString = (text, maxLength) => {
     if (text && text.length > maxLength) {

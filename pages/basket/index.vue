@@ -314,7 +314,7 @@ const visible = ref(false)
 const e1 = ref(1);
 const token = useAuthToken();
 const addSpacesToNumber = (number) => {
-  return String(number).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+  return String(number).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 }
 
 const user = ref({
@@ -361,9 +361,9 @@ const errorStatus = ref('');
 
 const rules = {
   phonenumber: (value) => {
-    const pattern = /^\+?\d{12}$/;
-    return pattern.test(value) || "Your phone number should look like +998993332211";
-  },
+    const pattern = /^(\+\d{9}|\d{9}|\+\d{12}|\d{12})$/;
+    return pattern.test(value) || "Пример: +998974083121 или 974083121"},
+    
   phoneRequired: (value) => !!value || "You must enter your phone",
   passwordRequired: (value) => !!value || "Your password is required",
 
@@ -417,6 +417,7 @@ async function onRegistrations() {
     console.error('Unexpected error during registration:', error);
   }
 }
+const router = useRouter();
 async function onMyorders() {
   try {
     if (valid.value) {
@@ -431,9 +432,10 @@ async function onMyorders() {
       order.value.address = ''
       order.value.is_delivery = ''
       localStorage.removeItem('cards')
+      router.push('/order-history')
       setTimeout(() => {
         window.location.reload();
-      }, 2000);
+      }, 1000);
       
     }
   } catch (error) {
