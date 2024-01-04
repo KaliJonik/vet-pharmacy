@@ -27,6 +27,7 @@ export const animation = () => {
         })
 
         scroll(loop)
+ 
     }
 
     loop();

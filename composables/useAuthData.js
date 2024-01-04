@@ -3,5 +3,9 @@ export const useAuthToken = () => {
 };
 
 export const useAuthData = () => {
-    return useCookie("user");
+    return useCookie("refresh_token");
 };
+
+export const useUser = () =>{
+    return useCookie("user_data")
+}

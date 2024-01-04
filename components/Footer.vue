@@ -1,76 +1,140 @@
 <template>
- <!-- FOOTER SECTION -->
- <section class="footer">
+    <!-- FOOTER SECTION -->
+    <section class="footer">
         <div class="container">
-            <div class="row">
-                <div class="col-6 col-xs-12">
+            <div class="row d-flex justify-center align-start"
+                v-for="{ id, phone_number1, phone_number2, site_name, email } in store.about" :key="id">
+                <div class="col-4 col-xs-12">
                     <h1>
-                        Freshfood
+                        {{ site_name }}
                     </h1>
                     <br>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt, quas harum? Atque eius
-                        quaerat fuga sint molestiae illo corrupti vitae voluptatibus. Dicta rerum est delectus
-                        perspiciatis nemo nihil autem! Doloremque?</p>
+                    <ul class="d-flex flex-row ga-5">
+                        <li v-for="items in store.Social" :key="items.id"><a :href="items.link"><v-icon>mdi-{{ items.slug
+                        }}</v-icon></a></li>
+                    </ul>
+
                     <br>
-                    <p>Email: kimjayden001@gmail.com</p>
-                    <p>Phone: +254712080741</p>
-                    <p>Website: foodycom.com</p>
+                    <p>{{ $t('email') }}: &ensp;{{ email }}</p>
+                    <div class="phone-container">
+                        <div class="d-flex mr-2">
+                            <span>{{ $t('phone') }}: </span> 
+                        </div>
+                       
+                       <div class="d-flex flex-column">
+                        <span> {{ phone_number1 }}</span>
+                       <span>{{ phone_number2 }}</span>
+                       </div>
+                      
+                    </div>
                 </div>
-                <div class="col-2 col-xs-12">
+                <div class="col-4 col-xs-12">
                     <h1>
-                        About us
+                        {{ $t('about') }}
                     </h1>
                     <br>
-                    <p> 
-                        <a href="#">
-                            Chefs
-                        </a>
+                    <p>
+                        <nuxt-link :to="{ path: '/', hash: '#home' }">
+
+                            {{ $t("home") }}
+
+                        </nuxt-link>
                     </p>
                     <p>
-                        <a href="#">
-                            Menu
-                        </a>
+                        <nuxt-link :to="{ path: '/', hash: '#about' }">
+
+                            {{ $t("about") }}
+
+                        </nuxt-link>
                     </p>
                     <p>
-                        <a href="#">
-                            Testimonials
-                        </a>
+                        <nuxt-link :to="{ path: '/', hash: '#delivery' }">
+
+                   {{ $t('delivery') }}
+
+                        </nuxt-link>
                     </p>
                     <p>
-                        <a href="#">
-                            Lorem ipsum
-                        </a>
+                        <nuxt-link :to="{ path: '/products', hash: '' }">
+                            {{ $t("products") }}
+                        </nuxt-link>
+                    </p>
+                    <p>
+                        <nuxt-link :to="{ path: '/', hash: '#testimonial' }">
+
+                            {{ $t("manufacture") }}
+
+                        </nuxt-link>
                     </p>
                 </div>
                 <div class="col-4 col-xs-12">
                     <h1>
-                        Subscribe & media
+                       {{ $t('feedback') }}
                     </h1>
                     <br>
-                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iusto aspernatur doloremque rerum nam
-                        ullam obcaecati error asperiores temporibus quo eum eaque sed odio vitae accusantium, dolorem
-                        nihil molestiae deserunt maxime!</p>
-                    <div class="input-group">
-                        <input type="text" placeholder="Enter your email">
-                        <button>
-                            Subscribe
-                        </button>
-                    </div>
+                    <form @submit.prevent="FeedBaak">
+                        <div class="input-group">
+                            <input type="text" v-model="form.contact" :placeholder="$t('email_phone')">
+                            
+                        </div>
+                        <div class="input-group" >
+                            <input type="text" v-model="form.title" :placeholder="$t('theme')">
+                        </div>
+                        <div class="input-group pt-7 pb-7">
+                            <input type="text" v-model="form.message" :placeholder="$t('text')">
+                        </div>
+                        <v-col class="pl-0"> 
+                            <v-btn type="submit" class="submit-form" color="#0F9D58">{{ $t('send') }}</v-btn>
+                        </v-col>
+
+                    </form>
+
                 </div>
             </div>
         </div>
     </section>
     <!-- END FOOTER SECTION -->
-
 </template>
 
-<script setup lang="ts">
+<script setup>
+import { productStore } from '@/stores/product';
+
+const store = productStore();
+
+const { feedback } = useAuth();
+const form = ref({
+    contact:'',
+    title:'',
+    message:''
+})
+async function FeedBaak() {
+        try {
+            await feedback(form.value.contact, form.value.title, form.value.message);
+            form.value.contact = ''
+            form.value.title = ''
+            form.value.message = ''
+    
+        } catch (error) {
+            console.error(error);
+        }
+}
 
 </script>
 
 <style scoped>
-::placeholder{
+::placeholder {
     color: #ffff;
 }
 
+ul li {
+    list-style: none;
+}
+.phone-container {
+    display: flex;
+    text-align: start;
+  }
+  .submit-form{
+    box-shadow: none;
+    border-radius: 15px;
+  }
 </style>

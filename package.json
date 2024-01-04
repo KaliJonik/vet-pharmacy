@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev",
+    "dev": "nuxt dev --host 0.0.0.0",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
@@ -12,7 +12,6 @@
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "@nuxtjs/i18n": "^8.0.0-rc.5",
-    "@pinia-plugin-persistedstate/nuxt": "^1.2.0",
     "nuxt": "^3.8.0",
     "sass": "^1.69.5",
     "vite-plugin-vuetify": "^1.0.2",
