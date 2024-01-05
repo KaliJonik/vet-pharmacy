@@ -16,7 +16,7 @@
             <div class="carousel__info">
               <h3>{{ content[$i18n.locale].title }}</h3>
               <p>{{ content[$i18n.locale].description }}</p>
-              <p v-if="url !== undefined">
+              <p v-if="url !== null">
                 <a :href="url">Подробнее...</a>
               </p>
             </div>
@@ -28,7 +28,7 @@
         {{ $t('swiper2') }}
       </h2>
       <carousel :settings="settings" :breakpoints="breakpoints" :wrap-around="true" :autoplay="3000" class="myCarousel2">
-        <slide v-for="{ id, image, content } in store.manufact.own" :key="id">
+        <slide v-for="{ id, image, content, url } in store.manufact.own" :key="id">
           <div class="carousel__item">
             <div class="carousel__image">
               <img :src="image" alt="">
@@ -36,7 +36,7 @@
             <div class="carousel__info">
               <h3>{{ content[$i18n.locale].title }}</h3>
               <p>{{ content[$i18n.locale].description }}</p>
-              <p v-if="url !== undefined">
+              <p v-if="url !== null">
                 <a :href="url">Подробнее...</a>
               </p>
             </div>

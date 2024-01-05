@@ -314,7 +314,6 @@ export const productStore = defineStore('products', {
       
       });
       this.manufact = manufacture.value;
-      console.log(this.manufact)
     },
     async getAbout(){
       const {data:About} = await useAsyncData(()=>$fetch('/settings/'), {
